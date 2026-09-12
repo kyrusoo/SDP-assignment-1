@@ -1,19 +1,19 @@
 package com.smarthome.model;
 
-public class SmartLock {
-    private String deviceId;
-    private String modelName;
-    private ProtocolType protocol;
-    private LockCredentials credentials;
+public final class SmartLock {
+    private final String deviceId;
+    private final String modelName;
+    private final ProtocolType protocol;
+    private final LockCredentials credentials;
 
-    private int batteryLevel;
-    private boolean autoLockEnabled;
-    private int autoLockDelaySeconds;
-    private boolean biometricAccess;
-    private boolean remoteUnlocking;
-    private String firmwareVersion;
+    private final int batteryLevel;
+    private final boolean autoLockEnabled;
+    private final int autoLockDelaySeconds;
+    private final boolean biometricAccess;
+    private final boolean remoteUnlocking;
+    private final String firmwareVersion;
 
-    //Part A: Conventional 10-parameter constructor (anti-pattern)
+    //Package-private constructor
     public SmartLock(
             String deviceId,
             String modelName,
