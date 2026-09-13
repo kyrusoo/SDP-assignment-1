@@ -60,4 +60,32 @@ public class SmartLockBuilder {
                 biometricAccess, remoteUnlocking, firmwareVersion
         );
     }
+
+    private void validateSingleFields() {
+        if (deviceId == null || deviceId.isBlank()) {
+            throw new IllegalStateException("Device ID cannot be null or empty.");
+        }
+        if (batteryLevel < 0 || batteryLevel > 100) {
+            throw new IllegalStateException("Battery level must be between 0 and 100. Provided: " + batteryLevel);
+        }
+        if (autoLockDelaySeconds < 5 || autoLockDelaySeconds > 600) {
+            throw new IllegalStateException("Auto-lock delay must be between 5 and 600 seconds. Provided: " + autoLockDelaySeconds);
+        }
+    }
+
+    private void validateCrossField() {
+        //constraint 1: remote unlocking requires Wi-Fi protocol and battery >= 20%
+        if (remoteUnlocking) {
+            if (protocol != ProtocolType.WIFI) {
+                throw new IllegalStateException("Remote unlocking requires Wi-Fi protocol connection.");
+            }
+            if (batteryLevel < 20) {
+                throw new IllegalStateException("Remote unlocking requires at least 20% battery level.");
+            }
+        }
+        //constraint 2: biometric access strictly requires auto-lock to be enabled
+        if (biometricAccess && !autoLockEnabled) {
+            throw new IllegalStateException("High-security biometric locks require auto-lock to be enabled.");
+        }
+    }
 }
